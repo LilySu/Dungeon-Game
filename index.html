@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>Print Hint - 3d News</title>
+
+
+</head>
+
+
+<body>
+<!--Beta Signup & Styles -->
+
+<style type="text/css">
+/* ::-webkit-input-placeholder {
+   color: white;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+/*   color: white;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+/*   color: white;  
+}
+
+:-ms-input-placeholder {  
+   color: white;  
+}
+*/
+
+input[type="submit"]{
+	width:150px;
+	border-radius: 25px !important;
+	border: solid 1px white !important;
+	margin-left: 175px;
+	text-align: center;
+	color: white !important;
+	background-color:black;
+	font-size: 14px;
+}
+input[type="text"]{
+	width:500px;
+	height:40px;
+	border-radius: 15px !important;
+	border: solid 1px white !important;
+	color: white !important;
+	background-color:black !important;
+	font-size: 18px;
+}
+
+.betaWrap{
+	/* z-index: 99;*/
+	position: absolute;
+	top: 90%;
+	left: 54%;
+	width: 600px;	/*height: 200px; */
+	margin-left: -300px;
+	margin-top: -150px;
+}
+
+
+
+div.img1
+  {
+  margin:5px;
+  padding: 5px;
+  border:0px 
+  left: 54%;
+  height:auto;
+  width:auto;
+  text-align:center;
+  }
+</style>
+<br>
+<br>
+<br>
+<div class="betaWrap">
+	<form action='javascript:betaSignUp()' method='POST'>
+	  <p><input type='text' id='email' placeholder='email'/></p>
+	  <input type='submit' value='Submit' />
+	</form>
+</div>
+
+
+<script>
+	function betaSignUp(){
+		$.ajax({
+			url:'beta.php',
+			data: {email:$('#email').val()},
+			complete:finish
+		
+		})
+	}
+
+	function finish(transport){
+	//	alert('ajax done');
+		console.log(transport.responseText);
+	
+			if (transport.responseText == "notValid"){
+				alert("please enter a valid email");
+				return
+			}
+			else if (transport.responseText == "no") {
+				alert("please enter a email");
+				return
+			}
+			else {
+				window.location ="home.html";
+			}		
+	}
+
+
+
+</script>
+<div class="img1">
+  <a target="_blank" href="images/nut.png">
+  <img src="images/nut.png" alt="Nut" width="500" height="500">
+  </a>
+
+</div>
+</body>
+</html>
