@@ -5,6 +5,7 @@
 <title>Print Hint - 3d News</title>
 
 
+
 </head>
 
 
@@ -29,17 +30,46 @@
 }
 */
 
-input[type="submit"]{
+input[type="register"]{
 	width:150px;
 	border-radius: 25px !important;
 	border: solid 1px white !important;
-	margin-left: 175px;
+	margin-left: 135px;
 	text-align: center;
+	height:auto;
 	color: white !important;
 	background-color:black;
 	font-size: 14px;
+	margin-top: -90%;
 }
-input[type="text"]{
+
+input[type="login"]{
+	width:150px;
+	border-radius: 25px !important;
+	border: solid 1px white !important;
+	margin-left: 75px;
+	text-align: center;
+	height:auto;
+	color: white !important;
+	background-color:black;
+	font-size: 14px;
+	margin-top:100px;
+	}
+	
+
+input[type="text1"]{
+	width:500px;
+	height:40px;
+	border-radius: 15px !important;
+	border: solid 1px white !important;
+	color: white !important;
+	background-color:black !important;
+	font-size: 18px;	
+	margin-left: 100px;
+	margin-top: -50%;
+}
+
+input[type="text2"]{
 	width:500px;
 	height:40px;
 	border-radius: 15px !important;
@@ -47,6 +77,8 @@ input[type="text"]{
 	color: white !important;
 	background-color:black !important;
 	font-size: 18px;
+	margin-left: 75px;
+	margin-top: -70%;
 }
 
 .betaWrap{
@@ -59,7 +91,7 @@ input[type="text"]{
 	margin-top: -150px;
 }
 
-
+/* 
 
 div.img1
   {
@@ -71,23 +103,40 @@ div.img1
   width:auto;
   text-align:center;
   }
+
+ */
 </style>
 <br>
 <br>
 <br>
 <div class="betaWrap">
-	<form action='javascript:betaSignUp()' method='POST'>
-	  <p><input type='text' id='email' placeholder='email'/></p>
-	  <input type='submit' value='Submit' />
+	<form action='javascript:password()' method='POST'>
+	  <p><input type='text1' id='password' placeholder='password'/></p>
+
+	  <div class="betaWrap">
+	<form action='javascript:email()' method='POST'>
+	  <p><input type='text2' id='email' placeholder='email'/></p>
+	
+	  <input type='Register' value='Register' />
+	  <input type='Login' value='Login' />
 	</form>
 </div>
 
 
 <script>
-	function betaSignUp(){
+	function email(){
 		$.ajax({
 			url:'beta.php',
 			data: {email:$('#email').val()},
+			complete:finish
+		
+		})
+	}
+
+	function password(){
+		$.ajax({
+			url:'beta.php',
+			data: {pass:$('#password').val()},
 			complete:finish
 		
 		})
@@ -113,11 +162,28 @@ div.img1
 
 
 </script>
-<div class="img1">
-  <a target="_blank" href="images/nut.png">
-  <img src="images/nut.png" alt="Nut" width="500" height="500">
-  </a>
+<!--Beta Signup & Styles -->
+<!--<div class="img1">
+  <!--<a target="_blank" href="images/nut.png">
+  <!--<img src="images/nut.png" alt="Nut" width="500" height="500">
+  <!--</a>
 
-</div>
+<!--</div>
+<!--Beta Signup & Styles -->
 </body>
+
+<!--<div id="fancybox-outer">
+
+  <div id="Popup" style="border-width: 10px; width: 448px; height: 229px;">
+  <img id="fancybox-img" src="file:///Users/admin/Desktop/Mana/Popup.html" alt>
+  </div>
+  
+   </div>
+  
+-->
+
+  
+
+
+
 </html>
