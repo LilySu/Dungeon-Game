@@ -7,8 +7,8 @@ pipenv install django
 pipenv shell
 ```
 
-create an .env file
-insert:
+Create an .env file
+paste in:
 
 ```
 DEBUG=on
@@ -23,7 +23,7 @@ winpty python manage.py createsuperuser
 python manage.py runserver
 ```
 Navigate to: http://127.0.0.1:8000/
-
+try logging into http://127.0.0.1:8000/admin to check out what's there
 
 
 
