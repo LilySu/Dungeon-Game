@@ -8,6 +8,13 @@ from .models import *
 from rest_framework.decorators import api_view
 import json
 
+from django.http import HttpResponseRedirect
+from rest_framework import permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import UserSerializer, UserSerializerWithToken
+
+
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_APP_KEY'), secret=config('PUSHER_APP_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
@@ -15,14 +22,17 @@ pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_APP_KEY'), se
 @api_view(["GET"])
 # def initialize(request):
 def initialize(request):
-    user = request.user
-    # player = user.player
-    # player_id = player.id
-    # uuid = player.uuid
-    # room = player.room()
-    # players = room.playerNames(player_id)
-    # return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
-    return JsonResponse({'uuid'}, safe=True)
+    user = UserSerializer(request.user)
+    # user = request.user
+    player = user.player
+    player_id = player.id
+    uuid = player.uuid
+    room = player.room()
+    players = room.playerNames(player_id)
+    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    # return JsonResponse({'uuid'}, safe=True)    
+    # serializer = UserSerializer(request.user)
+    # return Response(serializer.data)    
 
 
 @csrf_exempt

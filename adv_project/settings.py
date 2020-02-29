@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'adventure',
+    'adventure.apps.AdventureConfig',
     'api',
     'corsheaders',
     'rest_framework',
@@ -117,15 +117,40 @@ AUTH_PASSWORD_VALIDATORS = [
 
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 
+# REST_FRAMEWORK = {
+#     # 'DEFAULT_PERMISSION_CLASSES': [
+#     #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+#     # ],
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework.authentication.BasicAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.TokenAuthentication',
+#     ),
+# }
+
 REST_FRAMEWORK = {
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-    # ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+#Then, we added a piece of custom CORS middleware, making sure to 
+# place it place it above any middleware that generates responses 
+# such as Django’s CommonMiddleware. We then customized some of 
+# the default settings for the DRF: first, we set the 
+# DEFAULT_PERMISSION_CLASSES, which in this case will require a request 
+# to be authenticated before it is processed unless specified otherwise.
+#  Then, we set the DEFAULT_AUTHENTICATION_CLASSES, which determines 
+# which authentication methods the server will try when it receives 
+# a request, in descending order. 
+
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'api.utils.my_jwt_response_handler'
 }
 
 CORS_ORIGIN_ALLOW_ALL=True

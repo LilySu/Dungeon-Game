@@ -1,6 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+//Similar to SignupForm.js
+
+//ormally you’d want to collect more info on a user when they sign up 
+//than you’d need when they log in (in fact, you can customize the 
+//signup form if you like… Django’s User model supports email, 
+//first_name, and last_name fields in addition to username and 
+//password. Be sure to add the relevant fields to the serializer, 
+//too, if you want the data back). Both components are stateful 
+//to keep track of the data in their controlled inputs, and both 
+//have handle_change() methods to adjust the component’s state 
+//when the user types something into the form. Also, they both 
+//receive a prop which dictates how the form should be processed
+//upon submission.
+
 class LoginForm extends React.Component {
   state = {
     username: '',
