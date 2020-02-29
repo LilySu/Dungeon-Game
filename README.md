@@ -1,3 +1,32 @@
+### Instructions to run existing files from Lambda
+
+Set up virtual environment:
+```
+pip3 install pipenv
+pipenv install django
+pipenv shell
+```
+
+create an .env file
+insert:
+
+```
+DEBUG=on
+SECRET_KEY = 'h5&d6r-8kxsbk(-y$uy)ao)norv(5-&y0%+3v=6h44qe^h8jo1'
+```
+
+Django-related commands to run the first time
+```
+python manage.py makemigrations
+python manage.py migrate
+winpty python manage.py createsuperuser
+python manage.py runserver
+```
+Navigate to: http://127.0.0.1:8000/
+
+
+
+
 # CS Build Week 1
 
 For your first CS Build Week, you will be building an interactive ***Multi-User Dungeon (MUD)*** client and server in groups. To succeed with this project, you will be applying knowledge you've learned throughout the first part of CS to this project.
