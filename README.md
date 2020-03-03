@@ -94,7 +94,7 @@ Configure Heroku Deployment
 
 commit into the repo to link with heroku app:
 ```
-  heroku git:remote -a mud-02-03
+  heroku git:remote -a <your-heroku-app-name>
 ```
 
 git add, git commit, 
@@ -116,5 +116,11 @@ heroku addons:create heroku-postgresql:hobby-dev
 ```
 Heroku Run Database Migrations:
 ```
+heroku run python manage.py makemigrations
 heroku run python manage.py migrate
+heroku run python manage.py createsuperuser
+```
+If you are on a branch that is not master:
+```
+git push heroku your_local_branch_name:master
 ```
