@@ -8,10 +8,13 @@ import uuid
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
+    # exists = models.IntegerField(default=0)
     n_to = models.IntegerField(default=0)
     s_to = models.IntegerField(default=0)
     e_to = models.IntegerField(default=0)
     w_to = models.IntegerField(default=0)
+    x = models.IntegerField(default=0)
+    y = models.IntegerField(default=0)
     def connectRooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:
@@ -36,6 +39,10 @@ class Room(models.Model):
     def playerUUIDs(self, currentPlayerID):
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
 
+class Exists(models.Model):
+    title = models.CharField(max_length=50, default="DEFAULT TITLE")
+    description = models.CharField(
+        max_length=500, default="DEFAULT DESCRIPTION")
 
 class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -49,6 +56,7 @@ class Player(models.Model):
         try:
             return Room.objects.get(id=self.currentRoom)
         except Room.DoesNotExist:
+        # except AttributeError:
             self.initialize()
             return self.room()
 

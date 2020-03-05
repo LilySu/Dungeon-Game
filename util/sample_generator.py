@@ -5,6 +5,60 @@
 # procedural generation algorithm and use print_rooms()
 # to see the world.
 
+from django.contrib.auth.models import User
+from adventure.models import Player, Room
+
+
+# # Room.objects.all().delete()
+
+# r_outside = Room(title="Outside Cave Entrance",
+#                description="North of you, the cave mount beckons")
+
+# r_foyer = Room(title="Foyer", description="""Dim light filters in from the south. Dusty
+# passages run north and east.""")
+
+# r_overlook = Room(title="Grand Overlook", description="""A steep cliff appears before you, falling
+# into the darkness. Ahead to the north, a light flickers in
+# the distance, but there is no way across the chasm.""")
+
+# r_narrow = Room(title="Narrow Passage", description="""The narrow passage bends here from west
+# to north. The smell of gold permeates the air.""")
+
+# r_treasure = Room(title="Treasure Chamber", description="""You've found the long-lost treasure
+# chamber! Sadly, it has already been completely emptied by
+# earlier adventurers. The only exit is to the south.""")
+
+# r_porch = Room(title="Porch", description="""You've found the long-lost treasure
+# chamber! Sadly, it has already been completely emptied by
+# earlier adventurers. The only exit is to the south.""")
+
+
+# r_outside.save()
+# r_foyer.save()
+# r_overlook.save()
+# r_narrow.save()
+# r_treasure.save()
+# r_porch.save()
+
+# # Link rooms together
+# r_outside.connectRooms(r_foyer, "n")
+# r_foyer.connectRooms(r_outside, "s")
+
+# r_foyer.connectRooms(r_overlook, "n")
+# r_overlook.connectRooms(r_foyer, "s")
+
+# r_foyer.connectRooms(r_narrow, "e")
+# r_narrow.connectRooms(r_foyer, "w")
+
+# r_narrow.connectRooms(r_treasure, "n")
+# r_treasure.connectRooms(r_narrow, "s")
+
+# r_porch.connectRooms(r_treasure,"n")
+
+# players=Player.objects.all()
+# for p in players:
+#   p.currentRoom=r_outside.id
+#   p.save()
 
 class Room:
     def __init__(self, id, name, description, x, y):
@@ -36,12 +90,12 @@ class Room:
         return getattr(self, f"{direction}_to")
 
 
-class World:
+class World(Room):
     def __init__(self):
         self.grid = None
         self.width = 0
         self.height = 0
-    def generate_rooms(self, size_x, size_y, num_rooms):
+    def generate_rooms(self, size_x, size_y, num_rooms): #10, #10, #100 passed in below in sample
         '''
         Fill up the grid, bottom to top, in a zig-zag pattern
         '''
@@ -67,22 +121,24 @@ class World:
         while room_count < num_rooms:
 
             # Calculate the direction of the room to be created
-            if direction > 0 and x < size_x - 1:
+            if direction > 0 and x < size_x - 1: #keep on going right 
                 room_direction = "e"
                 x += 1
-            elif direction < 0 and x > 0:
-                room_direction = "w"
+            elif direction < 0 and x > 0: 
+                room_direction = "w" # once we have gone all the way to the right, we go to the left
                 x -= 1
             else:
                 # If we hit a wall, turn north and reverse direction
-                room_direction = "n"
+                room_direction = "n" # can't go right anymore
                 y += 1
-                direction *= -1
+                direction *= -1 #multiply by -1
 
             # Create a room in the given direction
             room = Room(room_count, "A Generic Room", "This is a generic room.", x, y)
             # Note that in Django, you'll need to save the room after you create it
+            Room.objects.create(id = room.id, title = room.name, description = room.description, room_exist = 1, x = x, y = y, n_to = n_to, s_to = s_to, e_to = e_to, w_to = w_to)
 
+            print(room.name)
             # Save the room in the World grid
             self.grid[y][x] = room
 
@@ -152,11 +208,12 @@ class World:
 
 
 w = World()
-num_rooms = 44
-width = 8
-height = 7
+num_rooms = 144
+width = 12
+height = 12
 w.generate_rooms(width, height, num_rooms)
 w.print_rooms()
 
 
-print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
+
+# print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
