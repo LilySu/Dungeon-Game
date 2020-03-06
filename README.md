@@ -120,7 +120,84 @@ heroku run python manage.py makemigrations
 heroku run python manage.py migrate
 heroku run python manage.py createsuperuser
 ```
+If your work is in master:
+```
+git push heroku master
+```
 If you are on a branch that is not master:
 ```
 git push heroku your_local_branch_name:master
+```
+
+To create rooms, in sample_generator.py, comment out:
+```
+room = Room(room_count, "A Generic Room", "This is a generic room.", x, y)
+```
+And add:
+```
+# Note that in Django, you'll need to save the room after you create it
+room = Room.objects.create(title = "A Generic Room", description = "This is a generic room.", n_to = 0, s_to = 0, e_to = 0, w_to = 0, x=x, y=y)
+room.save()
+```             
+
+To test, locally, run:
+```
+python manage.py shell
+```
+delete out lines in between 'World' class in sample_generator.py
+paste 
+
+
+Make a series of folders: adventure > management > commands > create_word.py
+
+In create_world.py, first few lines should be:
+```
+from django.core.management.base import BaseCommand, CommandError
+from django.contrib.auth.models import User
+from adventure.models import Room
+
+
+class Command(BaseCommand):
+    def handle(self, *argv, **kwargs):
+```
+Then the function to generate rooms, then end by calling the functions:
+```
+        try: 
+            Room.objects.all().delete()
+            w = World()
+            num_rooms = 144
+            width = 12
+            height = 12
+            w.generate_rooms(width, height, num_rooms)
+        except:
+            raise CommandError("command doesn't work")
+```
+
+After pushing to Heroku, run:
+```
+heroku run python manage.py create_world
+```
+
+
+### Run Front-end
+
+If yarn is not installed:
+###https://classic.yarnpkg.com/en/docs/install/#windows-stable
+###https://chocolatey.org/install
+```
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+choco install yarn
+
+curl -o- -L https://yarnpkg.com/install.sh | bash
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+```
+
+
+Navigate to the mud folder in front-end repo
+```
+yarn install
+yarn start
 ```
